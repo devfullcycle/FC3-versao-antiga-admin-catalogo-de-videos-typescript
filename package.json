@@ -1,0 +1,19 @@
+{
+  "name": "micro-videos",
+  "version": "1.0.0",
+  "description": "admin do catalogo de videos",
+  "main": "index.js",
+  "scripts": {
+    "ts-node": "ts-node",
+    "tsc": "tsc",
+    "clean:tsc": "rm tsconfig.tsbuildinfo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "14.14.31",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  }
+}
