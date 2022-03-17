@@ -13,6 +13,15 @@
         "titleBar.activeBackground": "#2f7c47",
         "titleBar.activeForeground": "#e7e7e7",
         "titleBar.inactiveBackground": "#2f7c4799",
-        "titleBar.inactiveForeground": "#e7e7e799"
-    }
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "statusBar.background": "#2f7c47",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#3da15c",
+        "statusBarItem.remoteBackground": "#2f7c47",
+        "statusBarItem.remoteForeground": "#e7e7e7"
+    },
+    "conventionalCommits.scopes": [
+        "devcontainer.json",
+        "settings.json"
+    ]
 }
