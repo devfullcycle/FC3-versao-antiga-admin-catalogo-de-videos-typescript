@@ -1,6 +1,7 @@
 import { Category, CategoryProperties } from "./category";
 import { omit } from "lodash";
-import UniqueEntityId from "../../../@seedwork/domain/unique-entity-id.vo";
+import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
+
 describe("Category Unit Tests", () => {
   test("constructor of category", () => {
     let category = new Category({ name: "Movie" });
@@ -72,7 +73,7 @@ describe("Category Unit Tests", () => {
     data.forEach((i) => {
       const category = new Category(i.props, i.id as any);
       expect(category.id).not.toBeNull();
-      expect(category.id).toBeInstanceOf(UniqueEntityId)
+      expect(category.id).toBeInstanceOf(UniqueEntityId);
     });
   });
 
