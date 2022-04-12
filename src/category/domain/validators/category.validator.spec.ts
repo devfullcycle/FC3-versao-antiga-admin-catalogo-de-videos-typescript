@@ -39,9 +39,7 @@ describe("CategoryValidator Tests", () => {
       validator,
       data: { name: "t".repeat(256) },
     }).containsErrorMessages({
-      name: [
-        "name must be shorter than or equal to 255 characters",
-      ],
+      name: ["name must be shorter than or equal to 255 characters"],
     });
   });
 
@@ -66,7 +64,12 @@ describe("CategoryValidator Tests", () => {
   });
 
   test("valid cases for fields", () => {
-    const arrange = [
+    type Arrange = {
+      name: string;
+      description?: string;
+      is_active?: boolean;
+    };
+    const arrange: Arrange[] = [
       { name: "some value" },
       {
         name: "some value",
