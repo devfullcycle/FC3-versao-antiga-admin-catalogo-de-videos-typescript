@@ -1,33 +1,26 @@
 {
-  "name": "micro-videos",
-  "version": "1.0.0",
-  "description": "admin do catalogo de videos",
+  "name": "micro-videos-typescript",
+  "version": "0.0.1",
+  "description": "",
   "main": "index.js",
+  "workspaces": [
+    "./src/@core",
+    "./src/nestjs"
+  ],
   "scripts": {
-    "ts-node": "ts-node",
-    "tsc": "tsc",
-    "tsc:check": "npm run tsc -- --noEmit",
-    "clean:tsc": "rm tsconfig.tsbuildinfo",
-    "test": "jest",
-    "test:cov": "npm run test -- --coverage"
+    "prestart:dev": "npm run build -w @fc/micro-videos",
+    "start:dev": "npm run build:w -w @fc/micro-videos & npm run start:dev -w nestjs",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeedu/micro-admin-videos-typescript.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@swc/core": "^1.2.143",
-    "@swc/jest": "^0.2.17",
-    "@types/jest": "^27.4.0",
-    "@types/lodash": "^4.14.178",
-    "@types/node": "14.14.31",
-    "@types/uuid": "^8.3.4",
-    "jest": "^27.5.1",
-    "regenerator-runtime": "^0.13.9",
-    "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+  "bugs": {
+    "url": "https://github.com/codeedu/micro-admin-videos-typescript/issues"
   },
-  "dependencies": {
-    "class-validator": "^0.13.2",
-    "uuid": "^8.3.2"
-  }
+  "homepage": "https://github.com/codeedu/micro-admin-videos-typescript#readme"
 }

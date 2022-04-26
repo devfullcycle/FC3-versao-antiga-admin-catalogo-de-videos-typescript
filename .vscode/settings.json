@@ -9,7 +9,6 @@
         "activityBarBadge.background": "#422c74",
         "activityBarBadge.foreground": "#e7e7e7",
         "sash.hoverBorder": "#2f7c47",
-        "tab.activeBorder": "#2f7c47",
         "titleBar.activeBackground": "#2f7c47",
         "titleBar.activeForeground": "#e7e7e7",
         "titleBar.inactiveBackground": "#2f7c4799",
@@ -18,7 +17,8 @@
         "statusBar.foreground": "#e7e7e7",
         "statusBarItem.hoverBackground": "#3da15c",
         "statusBarItem.remoteBackground": "#2f7c47",
-        "statusBarItem.remoteForeground": "#e7e7e7"
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "tab.activeBorder": "#2f7c47"
     },
     "conventionalCommits.scopes": [
         "devcontainer.json",
