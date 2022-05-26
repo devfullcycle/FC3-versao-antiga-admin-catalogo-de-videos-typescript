@@ -1,1 +1,24 @@
-GET http://localhost:3001
+GET http://localhost:3000/categories
+
+###
+GET http://localhost:3000/categories/b4452093-964b-4ab8-9876-74da32ced784
+
+###
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "name": "Movie"
+}
+
+###
+PUT http://localhost:3000/categories/b4452093-964b-4ab8-9876-74da32ced784
+Content-Type: application/json
+
+{
+    "name": "Movie111111"
+}
+
+###
+DELETE  http://localhost:3000/categories/b4452093-964b-4ab8-9876-74da32ced784
+Content-Type: application/json

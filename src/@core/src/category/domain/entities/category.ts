@@ -80,6 +80,8 @@ export class Category extends Entity<CategoryProperties> {
   }
 }
 
+//mapeamento em arquivo
+
 //null ou vazio
 //tamanho de parametros
 //especificas: email, cpf, cnpj, cartao de credito
