@@ -21,12 +21,12 @@ describe("InMemoryRepository Unit Tests", () => {
     expect(entity.toJSON()).toStrictEqual(repository.items[0].toJSON());
   });
 
-  it("should throws error when entity not found", () => {
-    expect(repository.findById("fake id")).rejects.toThrow(
+  it("should throws error when entity not found", async () => {
+    await expect(repository.findById("fake id")).rejects.toThrow(
       new NotFoundError("Entity Not Found using ID fake id")
     );
 
-    expect(
+    await expect(
       repository.findById(
         new UniqueEntityId("9366b7dc-2d71-4799-b91c-c64adb205104")
       )
