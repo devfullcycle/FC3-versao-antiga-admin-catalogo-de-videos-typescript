@@ -1,7 +1,7 @@
-import {GetCategoryUseCase} from "../get-category.use-case";
-import CategoryInMemoryRepository from "../../../infra/repository/category-in-memory.repository";
-import NotFoundError from "../../../../@seedwork/domain/errors/not-found.error";
-import { Category } from "../../../domain/entities/category";
+import {GetCategoryUseCase} from "../../get-category.use-case";
+import CategoryInMemoryRepository from "../../../../infra/db/in-memory/category-in-memory.repository";
+import NotFoundError from "../../../../../@seedwork/domain/errors/not-found.error";
+import { Category } from "../../../../domain/entities/category";
 
 describe("GetCategoryUseCase Unit Tests", () => {
   let useCase: GetCategoryUseCase.UseCase;
@@ -13,7 +13,7 @@ describe("GetCategoryUseCase Unit Tests", () => {
   });
 
   it("should throws error when entity not found", async () => {
-    expect(() => useCase.execute({ id: "fake id" })).rejects.toThrow(
+    await expect(() => useCase.execute({ id: "fake id" })).rejects.toThrow(
       new NotFoundError(`Entity Not Found using ID fake id`)
     );
   });

@@ -2,6 +2,7 @@ import { SearchParams, SearchResult } from "../repository-contracts";
 
 describe("Search Unit Tests", () => {
   describe("SearchParams Unit Tests", () => {
+    //TODO refactor to test.each
     test("page prop", () => {
       const params = new SearchParams();
       expect(params.page).toBe(1);
@@ -31,6 +32,7 @@ describe("Search Unit Tests", () => {
       const params = new SearchParams();
       expect(params.per_page).toBe(15);
 
+      //TODO refactor to test.each
       const arrange = [
         { per_page: null, expected: 15 },
         { per_page: undefined, expected: 15 },
@@ -59,6 +61,7 @@ describe("Search Unit Tests", () => {
       const params = new SearchParams();
       expect(params.sort).toBeNull();
 
+      //TODO refactor to test.each
       const arrange = [
         { sort: null, expected: null },
         { sort: undefined, expected: null },
@@ -90,6 +93,7 @@ describe("Search Unit Tests", () => {
       params = new SearchParams({ sort: "" });
       expect(params.sort_dir).toBeNull();
 
+      //TODO refactor to test.each
       const arrange = [
         { sort_dir: null, expected: "asc" },
         { sort_dir: undefined, expected: "asc" },
@@ -115,6 +119,7 @@ describe("Search Unit Tests", () => {
       const params = new SearchParams();
       expect(params.filter).toBeNull();
 
+      //TODO refactor to test.each
       const arrange = [
         { filter: null, expected: null },
         { filter: undefined, expected: null },
