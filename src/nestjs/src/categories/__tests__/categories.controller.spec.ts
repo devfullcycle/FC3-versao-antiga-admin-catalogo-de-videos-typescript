@@ -5,9 +5,9 @@ import {
   GetCategoryUseCase,
   ListCategoriesUseCase,
 } from '@fc/micro-videos/category/application';
-import { CategoriesController } from './categories.controller';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CategoriesController } from '../categories.controller';
+import { CreateCategoryDto } from '../dto/create-category.dto';
+import { UpdateCategoryDto } from '../dto/update-category.dto';
 
 describe('CategoriesController Unit Tests', () => {
   let controller: CategoriesController;
@@ -27,7 +27,7 @@ describe('CategoriesController Unit Tests', () => {
     const mockCreateUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
-    //@ts-expect-error
+    //@ts-expect-error defined part of methods
     controller['createUseCase'] = mockCreateUseCase;
     const input: CreateCategoryDto = {
       name: 'Movie',
@@ -51,7 +51,7 @@ describe('CategoriesController Unit Tests', () => {
     const mockUpdateUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
-    //@ts-expect-error
+    //@ts-expect-error defined part of methods
     controller['updateUseCase'] = mockUpdateUseCase;
     const input: UpdateCategoryDto = {
       name: 'Movie',
@@ -68,7 +68,7 @@ describe('CategoriesController Unit Tests', () => {
     const mockDeleteUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
-    //@ts-expect-error
+    //@ts-expect-error defined part of methods
     controller['deleteUseCase'] = mockDeleteUseCase;
     const id = '9366b7dc-2d71-4799-b91c-c64adb205104';
     expect(controller.remove(id)).toBeInstanceOf(Promise);
@@ -89,7 +89,7 @@ describe('CategoriesController Unit Tests', () => {
     const mockGetUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
-    //@ts-expect-error
+    //@ts-expect-error defined part of methods
     controller['getUseCase'] = mockGetUseCase;
     const output = await controller.findOne(id);
     expect(mockGetUseCase.execute).toHaveBeenCalledWith({ id });
@@ -115,7 +115,7 @@ describe('CategoriesController Unit Tests', () => {
     const mockListUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
-    //@ts-expect-error
+    //@ts-expect-error defined part of methods
     controller['listUseCase'] = mockListUseCase;
     const searchParams = {
       page: 1,

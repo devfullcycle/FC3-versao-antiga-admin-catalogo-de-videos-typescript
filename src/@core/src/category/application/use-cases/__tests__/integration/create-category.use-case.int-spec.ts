@@ -8,7 +8,8 @@ describe("CreateCategoryUseCase Integration Tests", () => {
   let useCase: CreateCategoryUseCase.UseCase;
   let repository: CategorySequelize.CategoryRepository;
 
-  setupSequelize({ models: [CategoryModel] });
+  //setupSequelize({ models: [CategoryModel], ...makeSequelizeOptions(config) });
+  setupSequelize({ models: [CategoryModel], });
 
   beforeEach(() => {
     repository = new CategoryRepository(CategoryModel);

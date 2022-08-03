@@ -4,7 +4,9 @@
   "description": "admin do catalogo de videos",
   "main": "index.js",
   "imports": {
+    "#seedwork/domain": "./dist/@seedwork/domain/index.js",
     "#seedwork/*": "./dist/@seedwork/*.js",
+    "#category/domain": "./dist/category/domain/index.js",
     "#category/*": "./dist/category/*.js"
   },
   "exports": {
@@ -46,7 +48,7 @@
     "test": "jest",
     "test:cov": "npm run test -- --coverage",
     "cti": "cti",
-    "cti:@core": "sh ./cti.sh"
+    "cti:make": "sh ./cti.sh"
   },
   "keywords": [],
   "author": "",
@@ -68,6 +70,8 @@
   "dependencies": {
     "chance": "^1.1.8",
     "class-validator": "^0.13.2",
+    "dotenv": "^16.0.1",
+    "mysql2": "^2.3.3",
     "sequelize": "^6.19.0",
     "sequelize-typescript": "^2.1.3",
     "sqlite3": "^5.0.8",
