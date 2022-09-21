@@ -12,7 +12,10 @@ import {
   LoadEntityError,
   EntityValidationError,
 } from "#seedwork/domain";
-import { CategoryRepository as CategoryRepositoryContract, Category } from "#category/domain";
+import {
+  CategoryRepository as CategoryRepositoryContract,
+  Category,
+} from "#category/domain";
 import { Op } from "sequelize";
 
 export namespace CategorySequelize {
@@ -66,6 +69,10 @@ export namespace CategorySequelize {
 
     async insert(entity: Category): Promise<void> {
       await this.categoryModel.create(entity.toJSON());
+    }
+
+    async bulkInsert(entities: Category[]): Promise<void> {
+      await this.categoryModel.bulkCreate(entities.map((e) => e.toJSON()));
     }
 
     async findById(id: string | UniqueEntityId): Promise<Category> {

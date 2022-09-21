@@ -15,3 +15,9 @@ import { CategorySequelize } from '@fc/micro-videos/category/infra';
   ],
 })
 export class CategoriesModule {}
+
+// testes no categoriesmodule
+// levantar o modulo
+// verificar imports,
+// verificar controllers
+// verificar providers

@@ -10,7 +10,8 @@
   "scripts": {
     "prestart:dev": "npm run build -w @fc/micro-videos",
     "start:dev": "npm run build:w -w @fc/micro-videos & npm run start:dev -w nestjs",
-    "test": "jest"
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "repository": {
     "type": "git",

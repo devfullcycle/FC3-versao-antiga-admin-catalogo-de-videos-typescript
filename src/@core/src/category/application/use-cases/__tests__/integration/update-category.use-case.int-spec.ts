@@ -2,6 +2,7 @@ import { UpdateCategoryUseCase } from "../../update-category.use-case";
 import NotFoundError from "../../../../../@seedwork/domain/errors/not-found.error";
 import { CategorySequelize } from "../../../../infra/db/sequelize/category-sequelize";
 import { setupSequelize } from "../../../../../@seedwork/infra/testing/helpers/db";
+import { CategoryFakeBuilder } from "../../../../domain/entities/category-fake-builder";
 
 const { CategoryRepository, CategoryModel } = CategorySequelize;
 
@@ -23,15 +24,16 @@ describe("UpdateCategoryUseCase Integration Tests", () => {
   });
 
   it("should update a category", async () => {
-    const model = await CategoryModel.factory().create();
+    const entity = CategoryFakeBuilder.aCategory().build();
+    repository.insert(entity);
 
-    let output = await useCase.execute({ id: model.id, name: "test" });
+    let output = await useCase.execute({ id: entity.id, name: "test" });
     expect(output).toStrictEqual({
-      id: model.id,
+      id: entity.id,
       name: "test",
       description: null,
       is_active: true,
-      created_at: model.created_at,
+      created_at: entity.created_at,
     });
 
     type Arrange = {
@@ -52,85 +54,85 @@ describe("UpdateCategoryUseCase Integration Tests", () => {
     const arrange: Arrange[] = [
       {
         input: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: "some description",
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: "some description",
           is_active: true,
-          created_at: model.created_at,
+          created_at: entity.created_at,
         },
       },
       {
         input: {
-          id: model.id,
+          id: entity.id,
           name: "test",
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: null,
           is_active: true,
-          created_at: model.created_at,
+          created_at: entity.created_at,
         },
       },
       {
         input: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           is_active: false,
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: null,
           is_active: false,
-          created_at: model.created_at,
+          created_at: entity.created_at,
         },
       },
       {
         input: {
-          id: model.id,
+          id: entity.id,
           name: "test",
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: null,
           is_active: false,
-          created_at: model.created_at,
+          created_at: entity.created_at,
         },
       },
       {
         input: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           is_active: true,
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: null,
           is_active: true,
-          created_at: model.created_at,
+          created_at: entity.created_at,
         },
       },
       {
         input: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: "some description",
           is_active: false,
         },
         expected: {
-          id: model.id,
+          id: entity.id,
           name: "test",
           description: "some description",
           is_active: false,
-          created_at: model.created_at,
+          created_at: entity.created_at,
         },
       },
     ];
@@ -143,7 +145,7 @@ describe("UpdateCategoryUseCase Integration Tests", () => {
         is_active: i.input.is_active,
       });
       expect(output).toStrictEqual({
-        id: model.id,
+        id: entity.id,
         name: i.expected.name,
         description: i.expected.description,
         is_active: i.expected.is_active,
