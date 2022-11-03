@@ -1,9 +1,6 @@
 import { UpdateCategoryUseCase } from '@fc/micro-videos/category/application';
+import { CreateCategoryDto } from './create-category.dto';
 
 export class UpdateCategoryDto
-  implements Omit<UpdateCategoryUseCase.Input, 'id'>
-{
-  name: string;
-  description?: string;
-  is_active?: boolean;
-}
+  extends CreateCategoryDto
+  implements Omit<UpdateCategoryUseCase.Input, 'id'> {}

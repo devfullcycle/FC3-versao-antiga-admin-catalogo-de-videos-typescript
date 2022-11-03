@@ -11,12 +11,13 @@ import {
   NotFoundError,
   LoadEntityError,
   EntityValidationError,
+  SortDirection,
 } from "#seedwork/domain";
 import {
   CategoryRepository as CategoryRepositoryContract,
   Category,
 } from "#category/domain";
-import { Op } from "sequelize";
+import { literal, Op } from "sequelize";
 
 export namespace CategorySequelize {
   type CategoryModelProps = {
@@ -42,7 +43,7 @@ export namespace CategorySequelize {
     @Column({ allowNull: false, type: DataType.BOOLEAN })
     declare is_active: boolean;
 
-    @Column({ allowNull: false, type: DataType.DATE })
+    @Column({ allowNull: false, type: DataType.DATE(3) })
     declare created_at: Date;
 
     static factory() {
@@ -64,7 +65,11 @@ export namespace CategorySequelize {
     implements CategoryRepositoryContract.Repository
   {
     sortableFields: string[] = ["name", "created_at"];
-
+    orderBy = {
+      mysql: {
+        name: (sort_dir: SortDirection) => literal(`binary name ${sort_dir}`),
+      },
+    };
     constructor(private categoryModel: typeof CategoryModel) {}
 
     async insert(entity: Category): Promise<void> {
@@ -115,7 +120,7 @@ export namespace CategorySequelize {
           where: { name: { [Op.like]: `%${props.filter}%` } },
         }),
         ...(props.sort && this.sortableFields.includes(props.sort)
-          ? { order: [[props.sort, props.sort_dir]] }
+          ? { order: this.formatSort(props.sort, props.sort_dir) }
           : { order: [["created_at", "DESC"]] }),
         offset,
         limit,
@@ -129,6 +134,14 @@ export namespace CategorySequelize {
         sort: props.sort,
         sort_dir: props.sort_dir,
       });
+    }
+
+    private formatSort(sort: string, sort_dir: SortDirection) {
+      const dialect = this.categoryModel.sequelize.getDialect();
+      if (this.orderBy[dialect] && this.orderBy[dialect][sort]) {
+        return this.orderBy[dialect][sort](sort_dir);
+      }
+      return [[sort, sort_dir]];
     }
   }
 

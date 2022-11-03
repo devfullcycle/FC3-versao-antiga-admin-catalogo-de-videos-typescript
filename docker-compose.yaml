@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   app:
@@ -9,3 +9,23 @@ services:
       - .:/home/node/app
     ports:
       - 3000:3000
+
+  db:
+    image: mysql:8.0.30-debian
+    container_name: micro-videos-typescript-db
+    profiles:
+      - dev
+    environment:
+      - MYSQL_DATABASE=micro_videos
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql:delegated
+
+  db_test:
+    image: mysql:8.0.30-debian
+    container_name: micro-videos-typescript-db-test
+    environment:
+      - MYSQL_DATABASE=micro_videos_test
+      - MYSQL_ROOT_PASSWORD=root
+    tmpfs:
+      - /var/lib/mysql

@@ -10,7 +10,9 @@ export class CategoryPresenter {
   name: string;
   description: string | null;
   is_active: boolean;
-  @Transform(({ value }) => value.toISOString())
+  @Transform(({ value }: { value: Date }) => {
+    return value.toISOString();
+  })
   created_at: Date;
 
   constructor(output: CategoryOutput) {

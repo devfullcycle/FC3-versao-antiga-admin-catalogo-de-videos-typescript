@@ -22,6 +22,8 @@
         "titleBar.activeBackground": "#2f7c47",
         "titleBar.activeForeground": "#e7e7e7",
         "titleBar.inactiveBackground": "#2f7c4799",
-        "titleBar.inactiveForeground": "#e7e7e799"
-    }
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "commandCenter.border": "#e7e7e799"
+    },
+    "jest.jestCommandLine": "npm run test -- --runInBand --detectOpenHandles --forceExit",
 }

@@ -55,7 +55,7 @@ describe("CategoryModel Unit Tests", () => {
       field: "created_at",
       fieldName: "created_at",
       allowNull: false,
-      type: DataType.DATE(),
+      type: DataType.DATE(3),
     });
   });
 
