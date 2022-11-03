@@ -1,6 +1,4 @@
-import { ClassSerializerInterceptor } from '@nestjs/common';
-import { NestFactory, Reflector } from '@nestjs/core';
-import { WrapperDataInterceptor } from './@share/interceptors/wrapper-data.interceptor';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { applyGlobalConfig } from './global-config';
 

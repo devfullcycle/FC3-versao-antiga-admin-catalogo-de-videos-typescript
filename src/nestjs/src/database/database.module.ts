@@ -18,7 +18,7 @@ import { CategorySequelize } from '@fc/micro-videos/category/infra';
             logging: config.get('DB_LOGGING'),
           };
         }
-        
+
         if (config.get('DB_VENDOR') === 'mysql') {
           return {
             dialect: 'mysql',
