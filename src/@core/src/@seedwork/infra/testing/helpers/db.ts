@@ -37,3 +37,8 @@ export function setupSequelize(options: SequelizeOptions = {}) {
 // function makeSequelizeOptions(config: Config){
 
 // }
+
+
+//import { Config } from "../../config";
+
+//const sequelizeOptions = Config.db() as SequelizeOptions;

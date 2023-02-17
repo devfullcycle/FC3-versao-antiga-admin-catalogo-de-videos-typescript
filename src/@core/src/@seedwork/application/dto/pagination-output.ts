@@ -1,4 +1,4 @@
-import { SearchResult } from "../../domain/repository/repository-contracts";
+import { SearchResult } from "../../domain";
 
 export type PaginationOutputDto<Item = any> = {
   items: Item[];
@@ -8,17 +8,25 @@ export type PaginationOutputDto<Item = any> = {
   per_page: number;
 };
 
+// export type PaginationOutputProps<Item> = {
+//   items: Item[];
+//   total: number;
+//   current_page: number;
+//   last_page: number;
+//   per_page: number;
+// };
+
 export class PaginationOutputMapper {
-  static toOutput<Item = any>(
+  static toOutput<Item = any, Filter = any>(
     items: Item[],
-    result: SearchResult
+    props: SearchResult<any, Filter>
   ): PaginationOutputDto<Item> {
     return {
-      items, 
-      total: result.total,
-      current_page: result.current_page,
-      last_page: result.last_page,
-      per_page: result.per_page,
+      items,
+      total: props.total,
+      current_page: props.current_page,
+      last_page: props.last_page,
+      per_page: props.per_page,
     };
   }
 }

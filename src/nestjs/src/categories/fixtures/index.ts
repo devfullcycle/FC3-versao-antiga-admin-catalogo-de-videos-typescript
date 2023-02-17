@@ -16,6 +16,7 @@ export class CategoryFixture {
           name: faker.name,
         },
         expected: {
+          name: faker.name,
           description: null,
           is_active: true,
         },
@@ -26,6 +27,8 @@ export class CategoryFixture {
           description: null,
         },
         expected: {
+          name: faker.name,
+          description: null,
           is_active: true,
         },
       },
@@ -35,7 +38,9 @@ export class CategoryFixture {
           is_active: true,
         },
         expected: {
+          name: faker.name,
           description: null,
+          is_active: true,
         },
       },
       {
@@ -44,7 +49,9 @@ export class CategoryFixture {
           is_active: false,
         },
         expected: {
+          name: faker.name,
           description: null,
+          is_active: false,
         },
       },
       {
@@ -53,7 +60,11 @@ export class CategoryFixture {
           description: faker.description,
           is_active: true,
         },
-        expected: {},
+        expected: {
+          name: faker.name,
+          description: faker.description,
+          is_active: true,
+        },
       },
     ];
   }

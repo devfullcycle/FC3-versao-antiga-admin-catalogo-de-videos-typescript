@@ -1,35 +1,31 @@
 import { ListCategoriesUseCase } from "../../list-categories.use-case";
+import { Category } from "../../../../domain/entities/category";
+import { setupSequelize } from "../../../../../@seedwork/infra";
 import { CategorySequelize } from "../../../../infra/db/sequelize/category-sequelize";
-import { setupSequelize } from "../../../../../@seedwork/infra/testing/helpers/db";
-import { Category } from "../../../../domain";
-
-const { CategoryRepository, CategoryModel } = CategorySequelize;
 
 describe("ListCategoriesUseCase Integration Tests", () => {
   let useCase: ListCategoriesUseCase.UseCase;
   let repository: CategorySequelize.CategoryRepository;
 
-  setupSequelize({ models: [CategoryModel] });
+  setupSequelize({ models: [CategorySequelize.CategoryModel] });
 
   beforeEach(() => {
-    repository = new CategoryRepository(CategoryModel);
+    repository = new CategorySequelize.CategoryRepository(
+      CategorySequelize.CategoryModel
+    );
     useCase = new ListCategoriesUseCase.UseCase(repository);
   });
 
-  it("should return output using empty input with categories ordered by created_at", async () => {
-    const faker = Category.fake().theCategories(2);
-
-    const entities = faker
-      .withName((index) => `category ${index}`)
-      .withCreatedAt((index) => new Date(new Date().getTime() + index))
+  it("should return output sorted by created_at when input param is empty", async () => {
+    const categories = Category.fake()
+      .theCategories(2)
+      .withCreatedAt((i) => new Date(new Date().getTime() + 1000 + i))
       .build();
 
-    await repository.bulkInsert(entities);
-
+    await repository.bulkInsert(categories);
     const output = await useCase.execute({});
-
-    expect(output).toMatchObject({
-      items: [...entities].reverse().map((i) => i.toJSON()),
+    expect(output).toEqual({
+      items: [...categories].reverse().map((i) => i.toJSON()),
       total: 2,
       current_page: 1,
       per_page: 15,
@@ -38,15 +34,22 @@ describe("ListCategoriesUseCase Integration Tests", () => {
   });
 
   it("should returns output using pagination, sort and filter", async () => {
-    const faker = Category.fake().aCategory();
-    const entities = [
-      faker.withName("a").build(),
-      faker.withName("AAA").build(),
-      faker.withName("AaA").build(),
-      faker.withName("b").build(),
-      faker.withName("c").build(),
+    const categories = [
+      new Category({ name: "a" }),
+      new Category({
+        name: "AAA",
+      }),
+      new Category({
+        name: "AaA",
+      }),
+      new Category({
+        name: "b",
+      }),
+      new Category({
+        name: "c",
+      }),
     ];
-    await repository.bulkInsert(entities);
+    await repository.bulkInsert(categories);
 
     let output = await useCase.execute({
       page: 1,
@@ -54,8 +57,8 @@ describe("ListCategoriesUseCase Integration Tests", () => {
       sort: "name",
       filter: "a",
     });
-    expect(output).toMatchObject({
-      items: [entities[1], entities[2]].map((i) => i.toJSON()),
+    expect(output).toEqual({
+      items: [categories[1].toJSON(), categories[2].toJSON()],
       total: 3,
       current_page: 1,
       per_page: 2,
@@ -68,8 +71,8 @@ describe("ListCategoriesUseCase Integration Tests", () => {
       sort: "name",
       filter: "a",
     });
-    expect(output).toMatchObject({
-      items: [entities[0]].map((i) => i.toJSON()),
+    expect(output).toEqual({
+      items: [categories[0].toJSON()],
       total: 3,
       current_page: 2,
       per_page: 2,
@@ -83,8 +86,8 @@ describe("ListCategoriesUseCase Integration Tests", () => {
       sort_dir: "desc",
       filter: "a",
     });
-    expect(output).toMatchObject({
-      items: [entities[0], entities[2]].map((i) => i.toJSON()),
+    expect(output).toEqual({
+      items: [categories[0].toJSON(), categories[2].toJSON()],
       total: 3,
       current_page: 1,
       per_page: 2,

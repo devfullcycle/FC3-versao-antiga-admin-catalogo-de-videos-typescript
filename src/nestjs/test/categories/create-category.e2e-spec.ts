@@ -4,7 +4,6 @@ import { CATEGORY_PROVIDERS } from '../../src/categories/category.providers';
 import { CreateCategoryFixture } from '../../src/categories/fixtures';
 import { CategoriesController } from '../../src/categories/categories.controller';
 import { instanceToPlain } from 'class-transformer';
-import { getConnectionToken } from '@nestjs/sequelize';
 import { startApp } from '../../src/@share/testing/helpers';
 
 describe('CategoriesController (e2e)', () => {
@@ -51,8 +50,6 @@ describe('CategoriesController (e2e)', () => {
       const arrange = CreateCategoryFixture.arrangeForSave();
       let categoryRepo: CategoryRepository.Repository;
       beforeEach(async () => {
-        const sequelize = app.app.get(getConnectionToken());
-        await sequelize.sync({ force: true });
         categoryRepo = app.app.get<CategoryRepository.Repository>(
           CATEGORY_PROVIDERS.REPOSITORIES.CATEGORY_REPOSITORY.provide,
         );
@@ -76,7 +73,6 @@ describe('CategoriesController (e2e)', () => {
           expect(res.body.data).toStrictEqual({
             id: serialized.id,
             created_at: serialized.created_at,
-            ...send_data,
             ...expected,
           });
         },

@@ -17,5 +17,7 @@ export default {
     //TODO - vamos ver depois
     '#category/(.*)$':
       '<rootDir>/../../../node_modules/@fc/micro-videos/dist/category/$1',
+    '#cast-member/(.*)$':
+      '<rootDir>/../../../node_modules/@fc/micro-videos/dist/cast-member/$1',
   },
 };

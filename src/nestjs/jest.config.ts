@@ -1,3 +1,6 @@
+const fc_micro_videos_path =
+  '<rootDir>/../../../node_modules/@fc/micro-videos/dist';
+
 export default {
   displayName: {
     name: 'nestjs',
@@ -10,21 +13,19 @@ export default {
     '^.+\\.(t|j)s$': '@swc/jest',
   },
   collectCoverageFrom: ['**/*.(t|j)s'],
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
   coverageDirectory: '../__coverage',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '@fc/micro\\-videos/(.*)$':
-      '<rootDir>/../../../node_modules/@fc/micro-videos/dist/$1',
+    '@fc/micro\\-videos/(.*)$': `${fc_micro_videos_path}/$1`,
     //'#seedwork/domain': '<rootDir>/../../../node_modules/@fc/micro-videos/dist/@seedwork/domain/index.js',
     //TODO - vamos ver depois
-    '#seedwork/(.*)$':
-       '<rootDir>/../../../node_modules/@fc/micro-videos/dist/@seedwork/$1',
+    '#seedwork/(.*)$': `${fc_micro_videos_path}/@seedwork/$1`,
     //'#category/domain': '<rootDir>/../../../node_modules/@fc/micro-videos/dist/category/domain/index.js',
     //vamos ver mais tarde se é necessário
     //TODO - vamos ver depois
-     '#category/(.*)$':
-       '<rootDir>/../../../node_modules/@fc/micro-videos/dist/category/$1',
+    '#category/(.*)$': `${fc_micro_videos_path}/category/$1`,
+    '#cast-member/(.*)$': `${fc_micro_videos_path}/cast-member/$1`,
   },
   setupFilesAfterEnv: ['../../@core/src/@seedwork/domain/tests/jest.ts'],
   coverageThreshold: {
@@ -32,7 +33,7 @@ export default {
       statements: 80,
       branches: 80,
       functions: 80,
-      lines: 80
+      lines: 80,
     },
   },
 };

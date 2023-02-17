@@ -14,7 +14,7 @@ describe("PaginationOutputMapper Unit Tests", () => {
     });
     const output = PaginationOutputMapper.toOutput(result.items, result);
     expect(output).toStrictEqual({
-      items: ['fake'],
+      items: ["fake"],
       total: 1,
       current_page: 1,
       last_page: 1,

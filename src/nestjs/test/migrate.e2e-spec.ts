@@ -6,7 +6,7 @@ import { MigrationModule } from '../src/database/migration/migration.module';
 
 describe('Migrate (e2e)', () => {
   let umzug: Umzug;
-  const totalMigrations = 1;
+  const totalMigrations = 2;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

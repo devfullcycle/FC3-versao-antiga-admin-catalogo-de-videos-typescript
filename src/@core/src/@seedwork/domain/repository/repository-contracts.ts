@@ -93,7 +93,7 @@ export class SearchParams<Filter = string> {
     return this._filter;
   }
 
-  private set filter(value: Filter | null) {
+  protected set filter(value: Filter | null) {
     this._filter =
       value === null || value === undefined || (value as unknown) === ""
         ? null
@@ -141,7 +141,7 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
       last_page: this.last_page,
       sort: this.sort,
       sort_dir: this.sort_dir,
-      filter: this.filter,
+      filter: this.filter as any,
     };
   }
 }
@@ -153,7 +153,7 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
 export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
-  SearchInput = SearchParams,
+  SearchInput = SearchParams<Filter>,
   SearchOutput = SearchResult<E, Filter>
 > extends RepositoryInterface<E> {
   sortableFields: string[];

@@ -52,7 +52,7 @@ describe("ListCategoriesUseCase Unit Tests", () => {
     });
   });
 
-  it("should returns output using empty input with categories ordered by created_at", async () => {
+  it("should return output sorted by created_at when input param is empty", async () => {
     const items = [
       new Category({ name: "test 1" }),
       new Category({
@@ -72,7 +72,7 @@ describe("ListCategoriesUseCase Unit Tests", () => {
     });
   });
 
-  it("should returns output using pagination, sort and filter", async () => {
+  it("should return output using pagination, sort and filter", async () => {
     const items = [
       new Category({ name: "a" }),
       new Category({

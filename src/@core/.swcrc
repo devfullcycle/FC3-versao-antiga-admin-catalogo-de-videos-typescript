@@ -5,12 +5,16 @@
             "decorators": true
         },
         "baseUrl": "./src",
+        "keepClassNames": true,
         "paths": {
             "#seedwork/*": [
                 "./@seedwork/*"
             ],
             "#category/*": [
                 "./category/*"
+            ],
+            "#cast-member/*": [
+                "./cast-member/*"
             ]
         }
     }

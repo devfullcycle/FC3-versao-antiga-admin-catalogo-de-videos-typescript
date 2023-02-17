@@ -8,7 +8,15 @@ type StubEntityProps = {
   price: number;
 };
 
-class StubEntity extends Entity<StubEntityProps> {}
+class StubEntity extends Entity<StubEntityProps> {
+  toJSON(): { id: string } & StubEntityProps {
+    return {
+      id: this.id,
+      name: this.props.name,
+      price: this.props.price,
+    };
+  }
+}
 
 class StubInMemoryRepository extends InMemoryRepository<StubEntity> {}
 

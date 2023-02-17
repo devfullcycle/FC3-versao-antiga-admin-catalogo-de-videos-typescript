@@ -4,7 +4,6 @@ import { CATEGORY_PROVIDERS } from '../../src/categories/category.providers';
 import { UpdateCategoryFixture } from '../../src/categories/fixtures';
 import { CategoriesController } from '../../src/categories/categories.controller';
 import { instanceToPlain } from 'class-transformer';
-import { getConnectionToken } from '@nestjs/sequelize';
 import { startApp } from '../../src/@share/testing/helpers';
 
 describe('CategoriesController (e2e)', () => {
@@ -103,8 +102,6 @@ describe('CategoriesController (e2e)', () => {
         categoryRepo = app.app.get<CategoryRepository.Repository>(
           CATEGORY_PROVIDERS.REPOSITORIES.CATEGORY_REPOSITORY.provide,
         );
-        const sequelize = app.app.get(getConnectionToken());
-        await sequelize.sync({ force: true });
       });
       test.each(arrange)(
         'when body is $send_data',

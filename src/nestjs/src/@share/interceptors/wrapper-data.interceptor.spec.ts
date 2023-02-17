@@ -7,8 +7,8 @@ describe('WrapperDataInterceptor Unit Tests', () => {
   beforeEach(() => {
     interceptor = new WrapperDataInterceptor();
   });
-  it.skip('should wrapper with data key', (done) => {
-    expect.assertions(1);
+  it('should wrapper with data key', (done) => {
+    expect.assertions(2);
     expect(interceptor).toBeDefined();
     const obs$ = interceptor.intercept({} as any, {
       handle: () => of({ name: 'test' }),

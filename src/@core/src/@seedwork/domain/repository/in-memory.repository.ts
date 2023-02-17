@@ -1,4 +1,3 @@
-import { Category } from "category/domain/entities/category";
 import Entity from "../entity/entity";
 import NotFoundError from "../errors/not-found.error";
 import UniqueEntityId from "../value-objects/unique-entity-id.vo";
@@ -54,13 +53,13 @@ export abstract class InMemoryRepository<E extends Entity>
   }
 }
 
-export abstract class InMemorySearchableRepository<E extends Entity>
+export abstract class InMemorySearchableRepository<E extends Entity, Filter = string>
   extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E>
+  implements SearchableRepositoryInterface<E, Filter>
 {
   sortableFields: string[] = [];
 
-  async search(props: SearchParams): Promise<SearchResult<E>> {
+  async search(props: SearchParams<Filter>): Promise<SearchResult<E, Filter>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter);
     const itemsSorted = await this.applySort(
       itemsFiltered,
@@ -85,24 +84,28 @@ export abstract class InMemorySearchableRepository<E extends Entity>
 
   protected abstract applyFilter(
     items: E[],
-    filter: string | null
+    filter: Filter | null
   ): Promise<E[]>;
 
   protected async applySort(
     items: E[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
+    custom_getter?: (sort: string, item: E) => any
   ): Promise<E[]> {
     if (!sort || !this.sortableFields.includes(sort)) {
       return items;
     }
 
     return [...items].sort((a, b) => {
-      if (a.props[sort] < b.props[sort]) {
+
+      const aValue = custom_getter ? custom_getter(sort, a) : a.props[sort];
+      const bValue = custom_getter ? custom_getter(sort, b) : b.props[sort];
+      if (aValue < bValue) {
         return sort_dir === "asc" ? -1 : 1;
       }
 
-      if (a.props[sort] > b.props[sort]) {
+      if (aValue > bValue) {
         return sort_dir === "asc" ? 1 : -1;
       }
 
