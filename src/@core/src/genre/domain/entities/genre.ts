@@ -58,7 +58,7 @@ class Genre {
         this.createdAt = props.createdAt;
     }
 
-    addCategory(categoryId: UniqueEntityId) {
+    addCategory(categoryId: UniqueEntityId) {  //UniqueEntityId 
 
     }
 
@@ -68,6 +68,11 @@ class Genre {
 }
 
 new Genre();
+
+
+findBy(genreId: UniqueEntityId, categoryId: UniqueEntityId) {
+  
+}
 
 // o que são agregados
 

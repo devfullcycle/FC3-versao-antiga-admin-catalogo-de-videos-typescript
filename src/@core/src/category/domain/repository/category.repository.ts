@@ -3,7 +3,7 @@ import {
   SearchParams as DefaultSearchParams,
   SearchResult as DefaultSearchResult,
 } from "../../../@seedwork/domain/repository/repository-contracts";
-import { Category } from "../entities";
+import { Category, CategoryId } from "../entities";
 
 export namespace CategoryRepository {
   export type Filter = string;
@@ -15,6 +15,7 @@ export namespace CategoryRepository {
   export interface Repository
     extends SearchableRepositoryInterface<
       Category,
+      CategoryId,
       Filter,
       SearchParams,
       SearchResult

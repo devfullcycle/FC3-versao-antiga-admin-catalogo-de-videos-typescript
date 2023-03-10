@@ -1,7 +1,7 @@
 import { ValueObject } from "../value-objects";
 
 export abstract class Entity<
-  EntityId extends ValueObject,
+  EntityId extends ValueObject = any,
   Props = any,
   JsonProps = Required<{ id: string } & Props>
 > {

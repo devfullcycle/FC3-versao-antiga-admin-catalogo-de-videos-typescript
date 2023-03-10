@@ -1,13 +1,12 @@
-import { CastMember } from "./cast-member";
+import { CastMember, CastMemberId } from "./cast-member";
 import { Chance } from "chance";
-import { UniqueEntityId } from "../../../@seedwork/domain";
 import { CastMemberType } from "../value-objects/cast-member-type.vo";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
 export class CastMemberFakeBuilder<TBuild = any> {
   // auto generated in entity
-  private _unique_entity_id = undefined;
+  private _entity_id = undefined;
   private _name: PropOrFactory<string> = (_index) => this.chance.word();
   // default generated actors
   private _type: PropOrFactory<CastMemberType> = (_index) =>
@@ -52,8 +51,8 @@ export class CastMemberFakeBuilder<TBuild = any> {
     this.chance = Chance();
   }
 
-  withUniqueEntityId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
-    this._unique_entity_id = valueOrFactory;
+  withEntityId(valueOrFactory: PropOrFactory<CastMemberId>) {
+    this._entity_id = valueOrFactory;
     return this;
   }
 
@@ -103,16 +102,16 @@ export class CastMemberFakeBuilder<TBuild = any> {
               created_at: this.callFactory(this._created_at, index),
             }),
           },
-          !this._unique_entity_id
+          !this._entity_id
             ? undefined
-            : this.callFactory(this._unique_entity_id, index)
+            : this.callFactory(this._entity_id, index)
         )
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
 
-  get unique_entity_id(): UniqueEntityId {
-    return this.getValue("unique_entity_id");
+  get entity_id(): CastMemberId {
+    return this.getValue("entity_id");
   }
 
   get name(): string {
@@ -128,7 +127,7 @@ export class CastMemberFakeBuilder<TBuild = any> {
   }
 
   private getValue(prop) {
-    const optional = ["unique_entity_id", "created_at"];
+    const optional = ["entity_id", "created_at"];
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(

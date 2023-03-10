@@ -5,7 +5,7 @@ import {
   SearchProps,
   SearchResult as DefaultSearchResult,
 } from "../../../@seedwork/domain/repository/repository-contracts";
-import { CastMember } from "../entities/cast-member";
+import { CastMember, CastMemberId } from "../entities/cast-member";
 import { CastMemberType, Types } from "../value-objects/cast-member-type.vo";
 
 export namespace CastMemberRepository {
@@ -83,6 +83,7 @@ export namespace CastMemberRepository {
   export interface Repository
     extends SearchableRepositoryInterface<
       CastMember,
+      CastMemberId,
       Filter,
       SearchParams,
       SearchResult

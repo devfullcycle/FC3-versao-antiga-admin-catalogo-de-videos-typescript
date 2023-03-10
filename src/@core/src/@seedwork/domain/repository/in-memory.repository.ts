@@ -1,6 +1,7 @@
 import Entity from "../entity/entity";
 import NotFoundError from "../errors/not-found.error";
-import UniqueEntityId from "../value-objects/unique-entity-id.vo";
+import { ValueObject } from "../value-objects";
+
 import {
   RepositoryInterface,
   SearchableRepositoryInterface,
@@ -9,8 +10,10 @@ import {
   SortDirection,
 } from "./repository-contracts";
 
-export abstract class InMemoryRepository<E extends Entity>
-  implements RepositoryInterface<E>
+export abstract class InMemoryRepository<
+  E extends Entity,
+  EntityId extends ValueObject
+> implements RepositoryInterface<E, EntityId>
 {
   items: E[] = [];
 
@@ -22,7 +25,7 @@ export abstract class InMemoryRepository<E extends Entity>
     this.items.push(...entities);
   }
 
-  async findById(id: string | UniqueEntityId): Promise<E> {
+  async findById(id: string | EntityId): Promise<E> {
     const _id = `${id}`;
     return this._get(_id);
   }
@@ -37,7 +40,7 @@ export abstract class InMemoryRepository<E extends Entity>
     this.items[indexFound] = entity;
   }
 
-  async delete(id: string | UniqueEntityId): Promise<void> {
+  async delete(id: string | EntityId): Promise<void> {
     const _id = `${id}`;
     await this._get(_id);
     const indexFound = this.items.findIndex((i) => i.id === _id);
@@ -53,9 +56,13 @@ export abstract class InMemoryRepository<E extends Entity>
   }
 }
 
-export abstract class InMemorySearchableRepository<E extends Entity, Filter = string>
-  extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E, Filter>
+export abstract class InMemorySearchableRepository<
+    E extends Entity,
+    EntityId extends ValueObject,
+    Filter = string
+  >
+  extends InMemoryRepository<E, EntityId>
+  implements SearchableRepositoryInterface<E, EntityId, Filter>
 {
   sortableFields: string[] = [];
 
@@ -98,7 +105,6 @@ export abstract class InMemorySearchableRepository<E extends Entity, Filter = st
     }
 
     return [...items].sort((a, b) => {
-
       const aValue = custom_getter ? custom_getter(sort, a) : a.props[sort];
       const bValue = custom_getter ? custom_getter(sort, b) : b.props[sort];
       if (aValue < bValue) {

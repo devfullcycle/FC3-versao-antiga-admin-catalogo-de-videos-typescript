@@ -1,4 +1,5 @@
 import Entity from "../../entity/entity";
+import { UniqueEntityId } from "../../value-objects";
 import { InMemorySearchableRepository } from "../in-memory.repository";
 import { SearchParams, SearchResult } from "../repository-contracts";
 
@@ -7,7 +8,12 @@ type StubEntityProps = {
   price: number;
 };
 
-class StubEntity extends Entity<StubEntityProps> {
+class StubEntity extends Entity<UniqueEntityId, StubEntityProps> {
+
+  constructor(props: StubEntityProps, entityId?: UniqueEntityId) {
+    super(props, entityId ?? new UniqueEntityId());
+  }
+
   toJSON(): { id: string } & StubEntityProps {
     return {
       id: this.id,

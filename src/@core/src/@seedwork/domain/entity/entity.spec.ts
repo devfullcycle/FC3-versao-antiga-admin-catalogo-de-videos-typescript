@@ -2,7 +2,12 @@ import UniqueEntityId from "../value-objects/unique-entity-id.vo";
 import Entity from "./entity";
 import { validate as uuidValidate } from "uuid";
 
-class StubEntity extends Entity<{ prop1: string; prop2: number }> {
+class StubEntity extends Entity<UniqueEntityId, { prop1: string; prop2: number }> {
+  
+  constructor(props: { prop1: string; prop2: number }, entityId?: UniqueEntityId) {
+    super(props, entityId ?? new UniqueEntityId());
+  }
+  
   toJSON(): Required<{ id: string; } & { prop1: string; prop2: number; }> {
     return {
       id: this.id,

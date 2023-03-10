@@ -1,12 +1,11 @@
-import { Category } from "./category";
+import { Category, CategoryId } from "./category";
 import { Chance } from "chance";
-import { UniqueEntityId } from "../../../@seedwork/domain";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
 export class CategoryFakeBuilder<TBuild = any> {
   // auto generated in entity
-  private _unique_entity_id = undefined;
+  private _entity_id = undefined;
   private _name: PropOrFactory<string> = (_index) => this.chance.word();
   private _description: PropOrFactory<string | null> = (_index) =>
     this.chance.paragraph();
@@ -31,8 +30,8 @@ export class CategoryFakeBuilder<TBuild = any> {
     this.chance = Chance();
   }
 
-  withUniqueEntityId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
-    this._unique_entity_id = valueOrFactory;
+  withEntityId(valueOrFactory: PropOrFactory<CategoryId>) {
+    this._entity_id = valueOrFactory;
     return this;
   }
 
@@ -103,16 +102,16 @@ export class CategoryFakeBuilder<TBuild = any> {
               created_at: this.callFactory(this._created_at, index),
             }),
           },
-          !this._unique_entity_id
+          !this._entity_id
             ? undefined
-            : this.callFactory(this._unique_entity_id, index)
+            : this.callFactory(this._entity_id, index)
         )
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
 
-  get unique_entity_id() {
-    return this.getValue("unique_entity_id");
+  get entity_id() {
+    return this.getValue("entity_id");
   }
 
   get name() {
@@ -132,7 +131,7 @@ export class CategoryFakeBuilder<TBuild = any> {
   }
 
   private getValue(prop) {
-    const optional = ["unique_entity_id", "created_at"];
+    const optional = ["entity_id", "created_at"];
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(

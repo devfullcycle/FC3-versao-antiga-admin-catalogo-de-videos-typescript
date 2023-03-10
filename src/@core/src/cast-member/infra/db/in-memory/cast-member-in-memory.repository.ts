@@ -1,10 +1,14 @@
 import { SortDirection } from "#seedwork/domain/repository/repository-contracts";
 import { InMemorySearchableRepository } from "../../../../@seedwork/domain/repository/in-memory.repository";
-import { CastMember } from "../../../domain/entities/cast-member";
+import { CastMember, CastMemberId } from "../../../domain/entities/cast-member";
 import CastMemberRepository from "../../../domain/repository/cast-member.repository";
 
 export class CastMemberInMemoryRepository
-  extends InMemorySearchableRepository<CastMember, CastMemberRepository.Filter>
+  extends InMemorySearchableRepository<
+    CastMember,
+    CastMemberId,
+    CastMemberRepository.Filter
+  >
   implements CastMemberRepository.Repository
 {
   sortableFields: string[] = ["name", "created_at"];
@@ -12,7 +16,8 @@ export class CastMemberInMemoryRepository
   protected async applyFilter(
     items: CastMember[],
     filter: CastMemberRepository.Filter
-  ): Promise<CastMember[]> { //Specification - Criteria Pattern
+  ): Promise<CastMember[]> {
+    //Specification - Criteria Pattern
     if (!filter) {
       return items;
     }

@@ -1,9 +1,9 @@
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
-import Entity from "../../../@seedwork/domain/entity/entity";
 import CastMemberValidatorFactory from "../validators/cast-member.validator";
 import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import { CastMemberFakeBuilder } from "./cast-member-fake-builder";
 import { CastMemberType, Types } from "../value-objects/cast-member-type.vo";
+import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
 
 export type CastMemberProperties = {
   name: string;
@@ -15,15 +15,20 @@ export type CastMemberPropsJson = Required<
   { id: string } & Omit<CastMemberProperties, "type">
 > & { type: Types };
 
-export class CastMember extends Entity<
+export class CastMemberId extends UniqueEntityId{
+  
+}
+
+export class CastMember extends AggregateRoot<
+  CastMemberId,
   CastMemberProperties,
   CastMemberPropsJson
 > {
   constructor(
     public readonly props: CastMemberProperties,
-    id?: UniqueEntityId
+    entityId?: CastMemberId
   ) {
-    super(props, id);
+    super(props, entityId ?? new CastMemberId());
     CastMember.validate(props);
     this.props.created_at = this.props.created_at ?? new Date();
   }

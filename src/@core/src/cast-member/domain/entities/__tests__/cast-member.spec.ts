@@ -1,5 +1,4 @@
-import { CastMember, CastMemberProperties } from "#cast-member/domain";
-import { UniqueEntityId } from "#seedwork/domain";
+import { CastMember, CastMemberId, CastMemberProperties } from "#cast-member/domain";
 import { CastMemberType } from "../../value-objects/cast-member-type.vo";
 
 describe("CastMember Unit Tests", () => {
@@ -34,19 +33,19 @@ describe("CastMember Unit Tests", () => {
   });
 
   describe("id field", () => {
-    type CastMemberData = { props: CastMemberProperties; id?: UniqueEntityId };
+    type CastMemberData = { props: CastMemberProperties; id?: CastMemberId };
     const actor = CastMemberType.createADirector();
     const arrange: CastMemberData[] = [
       { props: { name: "Movie", type: actor } },
       { props: { name: "Movie", type: actor }, id: null },
       { props: { name: "Movie", type: actor }, id: undefined },
-      { props: { name: "Movie", type: actor }, id: new UniqueEntityId() },
+      { props: { name: "Movie", type: actor }, id: new CastMemberId() },
     ];
 
     test.each(arrange)("when props is %j", (item) => {
       const castMember = new CastMember(item.props, item.id as any);
       expect(castMember.id).not.toBeNull();
-      expect(castMember.entityId).toBeInstanceOf(UniqueEntityId);
+      expect(castMember.entityId).toBeInstanceOf(CastMemberId);
     });
   });
 

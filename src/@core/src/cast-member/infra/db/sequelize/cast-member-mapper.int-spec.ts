@@ -1,6 +1,6 @@
 import { CastMemberSequelize } from "./cast-member-sequelize";
-import { LoadEntityError, UniqueEntityId } from "#seedwork/domain";
-import { CastMember, CastMemberType, Types } from "#cast-member/domain";
+import { LoadEntityError } from "#seedwork/domain";
+import { CastMember, CastMemberId, CastMemberType, Types } from "#cast-member/domain";
 import { setupSequelize } from "../../../../@seedwork/infra/testing/helpers/db";
 
 const { CastMemberModel, CastMemberModelMapper } = CastMemberSequelize;
@@ -59,7 +59,7 @@ describe("CastMemberModelMapper Unit Tests", () => {
           type: CastMemberType.createAnActor(),
           created_at,
         },
-        new UniqueEntityId("5490020a-e866-4229-9adc-aa44b83234c4")
+        new CastMemberId("5490020a-e866-4229-9adc-aa44b83234c4")
       ).toJSON()
     );
   });

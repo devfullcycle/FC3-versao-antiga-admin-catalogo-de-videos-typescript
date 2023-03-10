@@ -1,9 +1,9 @@
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
-import Entity from "../../../@seedwork/domain/entity/entity";
 //import ValidatorRules from "../../../@seedwork/validators/validator-rules";
 import CategoryValidatorFactory from "../validators/category.validator";
 import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import { CategoryFakeBuilder } from "./category-fake-builder";
+import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
 
 export type CategoryProperties = {
   name: string;
@@ -14,9 +14,13 @@ export type CategoryProperties = {
 
 export type CategoryPropsJson = Required<{ id: string } & CategoryProperties>;
 
-export class Category extends Entity<CategoryProperties, CategoryPropsJson> {
-  constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
-    super(props, id);
+export class CategoryId extends UniqueEntityId{
+
+}
+
+export class Category extends AggregateRoot<CategoryId, CategoryProperties, CategoryPropsJson> {
+  constructor(public readonly props: CategoryProperties, entityId?: CategoryId) {
+    super(props, entityId ?? new CategoryId());
     Category.validate(props);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;

@@ -7,7 +7,6 @@ import {
 } from "sequelize-typescript";
 import { SequelizeModelFactory } from "../../../../@seedwork/infra/sequelize/sequelize-model-factory";
 import {
-  UniqueEntityId,
   NotFoundError,
   LoadEntityError,
   EntityValidationError,
@@ -16,6 +15,7 @@ import {
 import {
   CategoryRepository as CategoryRepositoryContract,
   Category,
+  CategoryId,
 } from "#category/domain";
 import { literal, Op } from "sequelize";
 
@@ -80,7 +80,7 @@ export namespace CategorySequelize {
       await this.categoryModel.bulkCreate(entities.map((e) => e.toJSON()));
     }
 
-    async findById(id: string | UniqueEntityId): Promise<Category> {
+    async findById(id: string | CategoryId): Promise<Category> {
       //DDD Entidade - regras - valida
       const _id = `${id}`;
       const model = await this._get(_id);
@@ -98,7 +98,7 @@ export namespace CategorySequelize {
         where: { id: entity.id },
       });
     }
-    async delete(id: string | UniqueEntityId): Promise<void> {
+    async delete(id: string | CategoryId): Promise<void> {
       const _id = `${id}`;
       await this._get(_id);
       this.categoryModel.destroy({ where: { id: _id } });
@@ -149,7 +149,7 @@ export namespace CategorySequelize {
     static toEntity(model: CategoryModel) {
       const { id, ...otherData } = model.toJSON();
       try {
-        return new Category(otherData, new UniqueEntityId(id));
+        return new Category(otherData, new CategoryId(id));
       } catch (e) {
         if (e instanceof EntityValidationError) {
           throw new LoadEntityError(e.error);

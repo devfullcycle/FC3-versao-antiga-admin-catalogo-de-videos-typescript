@@ -1,11 +1,12 @@
 import { CastMemberSequelize } from "./cast-member-sequelize";
 import {
   CastMember,
+  CastMemberId,
   CastMemberRepository,
   CastMemberType,
   Types,
 } from "#cast-member/domain";
-import { UniqueEntityId, NotFoundError } from "#seedwork/domain";
+import { NotFoundError } from "#seedwork/domain";
 import { setupSequelize } from "#seedwork/infra/testing/helpers/db";
 import _chance from "chance";
 import orderBy from "lodash/orderBy";
@@ -38,7 +39,7 @@ describe("CastMemberSequelizeRepository Unit Tests", () => {
 
     await expect(
       repository.findById(
-        new UniqueEntityId("9366b7dc-2d71-4799-b91c-c64adb205104")
+        new CastMemberId("9366b7dc-2d71-4799-b91c-c64adb205104")
       )
     ).rejects.toThrow(
       new NotFoundError(
@@ -91,7 +92,7 @@ describe("CastMemberSequelizeRepository Unit Tests", () => {
 
     await expect(
       repository.delete(
-        new UniqueEntityId("9366b7dc-2d71-4799-b91c-c64adb205104")
+        new CastMemberId("9366b7dc-2d71-4799-b91c-c64adb205104")
       )
     ).rejects.toThrow(
       new NotFoundError(

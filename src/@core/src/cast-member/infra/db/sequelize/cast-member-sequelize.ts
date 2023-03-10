@@ -6,7 +6,6 @@ import {
   Model,
 } from "sequelize-typescript";
 import {
-  UniqueEntityId,
   NotFoundError,
   LoadEntityError,
   EntityValidationError,
@@ -16,7 +15,8 @@ import {
   CastMemberRepository as CastMemberRepositoryContract,
   CastMember,
   CastMemberType,
-  Types
+  Types,
+  CastMemberId
 } from "#cast-member/domain";
 import { literal, Op } from "sequelize";
 
@@ -66,7 +66,7 @@ export namespace CastMemberSequelize {
       await this.castMemberModel.bulkCreate(entities.map((e) => e.toJSON()));
     }
 
-    async findById(id: string | UniqueEntityId): Promise<CastMember> {
+    async findById(id: string | CastMemberId): Promise<CastMember> {
       //DDD Entidade - regras - valida
       const _id = `${id}`;
       const model = await this._get(_id);
@@ -84,7 +84,7 @@ export namespace CastMemberSequelize {
         where: { id: entity.id },
       });
     }
-    async delete(id: string | UniqueEntityId): Promise<void> {
+    async delete(id: string | CastMemberId): Promise<void> {
       const _id = `${id}`;
       await this._get(_id);
       this.castMemberModel.destroy({ where: { id: _id } });
@@ -156,7 +156,7 @@ export namespace CastMemberSequelize {
             ...otherData,
             type,
           },
-          new UniqueEntityId(id)
+          new CastMemberId(id)
         );
       } catch (e) {
         if (e instanceof EntityValidationError) {

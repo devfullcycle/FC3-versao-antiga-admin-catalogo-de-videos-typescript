@@ -8,7 +8,12 @@ type StubEntityProps = {
   price: number;
 };
 
-class StubEntity extends Entity<StubEntityProps> {
+class StubEntity extends Entity<UniqueEntityId, StubEntityProps> {
+
+  constructor(props: StubEntityProps, entityId?: UniqueEntityId) {
+    super(props, entityId ?? new UniqueEntityId());
+  }
+  
   toJSON(): { id: string } & StubEntityProps {
     return {
       id: this.id,
