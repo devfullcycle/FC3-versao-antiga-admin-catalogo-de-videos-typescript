@@ -216,7 +216,7 @@ describe("CategoryFakerBuilder Unit Tests", () => {
     const faker = CategoryFakeBuilder.aCategory();
     let category = faker.build();
 
-    expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+    expect(category.entityId).toBeInstanceOf(UniqueEntityId);
     expect(typeof category.name === "string").toBeTruthy();
     expect(typeof category.description === "string").toBeTruthy();
     expect(category.is_active).toBeTruthy();
@@ -232,7 +232,7 @@ describe("CategoryFakerBuilder Unit Tests", () => {
       .withCreatedAt(created_at)
       .build();
 
-    expect(category.uniqueEntityId.value).toBe(uniqueEntityId.value);
+    expect(category.entityId.value).toBe(uniqueEntityId.value);
     expect(category.name).toBe("name test");
     expect(category.description).toBe("description test");
     expect(category.is_active).toBeFalsy();
@@ -244,7 +244,7 @@ describe("CategoryFakerBuilder Unit Tests", () => {
     let categories = faker.build();
 
     categories.forEach((category) => {
-      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+      expect(category.entityId).toBeInstanceOf(UniqueEntityId);
       expect(typeof category.name === "string").toBeTruthy();
       expect(typeof category.description === "string").toBeTruthy();
       expect(category.is_active).toBeTruthy();
@@ -262,7 +262,7 @@ describe("CategoryFakerBuilder Unit Tests", () => {
       .build();
 
     categories.forEach((category) => {
-      expect(category.uniqueEntityId.value).toBe(uniqueEntityId.value);
+      expect(category.entityId.value).toBe(uniqueEntityId.value);
       expect(category.name).toBe("name test");
       expect(category.description).toBe("description test");
       expect(category.is_active).toBeFalsy();

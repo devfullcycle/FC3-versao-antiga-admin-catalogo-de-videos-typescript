@@ -77,7 +77,7 @@ describe("Category Unit Tests", () => {
     test.each(arrange)("when props is %j", (item) => {
       const category = new Category(item.props, item.id as any);
       expect(category.id).not.toBeNull();
-      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+      expect(category.entityId).toBeInstanceOf(UniqueEntityId);
     })
   });
 

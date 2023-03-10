@@ -188,7 +188,7 @@ describe("CastMemberFakerBuilder Unit Tests", () => {
     const faker = CastMemberFakeBuilder.anActor();
     let castMember = faker.build();
 
-    expect(castMember.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+    expect(castMember.entityId).toBeInstanceOf(UniqueEntityId);
     expect(typeof castMember.name === "string").toBeTruthy();
     expect(castMember.type).toBeInstanceOf(CastMemberType);
     expect(castMember.created_at).toBeInstanceOf(Date);
@@ -203,7 +203,7 @@ describe("CastMemberFakerBuilder Unit Tests", () => {
       .withCreatedAt(created_at)
       .build();
 
-    expect(castMember.uniqueEntityId.value).toBe(uniqueEntityId.value);
+    expect(castMember.entityId.value).toBe(uniqueEntityId.value);
     expect(castMember.name).toBe("name test");
     expect(castMember.type).toEqual(actor);
     expect(castMember.props.created_at).toEqual(created_at);
@@ -214,7 +214,7 @@ describe("CastMemberFakerBuilder Unit Tests", () => {
     let castMembers = faker.build();
 
     castMembers.forEach((castMember) => {
-      expect(castMember.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+      expect(castMember.entityId).toBeInstanceOf(UniqueEntityId);
       expect(typeof castMember.name === "string").toBeTruthy();
       expect(castMember.type).toBeInstanceOf(CastMemberType);
       expect(castMember.created_at).toBeInstanceOf(Date);
@@ -231,7 +231,7 @@ describe("CastMemberFakerBuilder Unit Tests", () => {
       .build();
 
     castMembers.forEach((castMember) => {
-      expect(castMember.uniqueEntityId.value).toBe(uniqueEntityId.value);
+      expect(castMember.entityId.value).toBe(uniqueEntityId.value);
       expect(castMember.name).toBe("name test");
       expect(castMember.type).toBeInstanceOf(CastMemberType);
       expect(castMember.props.created_at).toEqual(created_at);

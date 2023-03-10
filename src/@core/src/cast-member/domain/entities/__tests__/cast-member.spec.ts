@@ -46,7 +46,7 @@ describe("CastMember Unit Tests", () => {
     test.each(arrange)("when props is %j", (item) => {
       const castMember = new CastMember(item.props, item.id as any);
       expect(castMember.id).not.toBeNull();
-      expect(castMember.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+      expect(castMember.entityId).toBeInstanceOf(UniqueEntityId);
     });
   });
 
