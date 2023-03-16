@@ -3,15 +3,19 @@ import GenreValidatorFactory from "../validators/genre.validator";
 import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
 import { GenreFakeBuilder } from "./genre-fake-builder";
+import { CategoryId } from "../../../category/domain";
+
 
 export type GenreProperties = {
   name: string;
-  
+  categories_id: Map<string, CategoryId>;
   is_active?: boolean;
   created_at?: Date;
 };
 
-
+export type GenreCreateCommand = Omit<GenreProperties, 'categories_id'> & {
+  categories_id: string[];
+}
 
 export class GenreId extends UniqueEntityId {}
 
@@ -29,6 +33,14 @@ export class Genre extends AggregateRoot<
     Genre.validate(props);
     this.props.is_active = this.props.is_active ?? true;
     this.props.created_at = this.props.created_at ?? new Date();
+  }
+
+  static create(props: GenreCreateCommand, id?: GenreId) {
+    const categories_id = new Map<string, CategoryId>();
+    props.categories_id.forEach((categoryId) => {
+      categories_id.set(categoryId, new CategoryId(categoryId));
+    });
+    return new Genre({ ...props, categories_id }, id);
   }
 
   update(name: string): void {
@@ -63,6 +75,14 @@ export class Genre extends AggregateRoot<
     this.props.name = value;
   }
 
+  get categories_id() {
+    return this.props.categories_id;
+  }
+
+  private set categories_id(value: Map<string, CategoryId>) {
+    this.props.categories_id = value;
+  }
+
   get is_active() {
     return this.props.is_active;
   }
@@ -83,7 +103,9 @@ export class Genre extends AggregateRoot<
     return {
       id: this.id,
       name: this.name,
-      
+      categories_id: Array.from(this.props.categories_id.values()).map(
+        (categoryId) => categoryId.value
+      ),
       is_active: this.is_active,
       created_at: this.created_at,
     };
