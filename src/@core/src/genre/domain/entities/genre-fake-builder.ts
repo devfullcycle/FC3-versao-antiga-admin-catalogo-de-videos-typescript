@@ -1,3 +1,4 @@
+import { CategoryId } from "../../../category/domain";
 import { Genre, GenreId } from "./genre";
 import { Chance } from "chance";
 
@@ -7,7 +8,8 @@ export class GenreFakeBuilder<TBuild = any> {
   // auto generated in entity
   private _entity_id = undefined;
   private _name: PropOrFactory<string> = (_index) => this.chance.word();
-  //private _categories_id: 
+  private _categories_id: PropOrFactory<CategoryId>[] = [];
+  //private _categories_id:
   private _is_active: PropOrFactory<boolean> = (_index) => true;
   // auto generated in entity
   private _created_at = undefined;
@@ -54,7 +56,15 @@ export class GenreFakeBuilder<TBuild = any> {
     return this;
   }
 
-  //
+  withCategoryId(valueOrFactory: PropOrFactory<CategoryId>) {
+    this._categories_id.push(valueOrFactory);
+    return this;
+  }
+
+  withInvalidCategoryId() {
+    this._categories_id.push("fake id" as any);
+    return this;
+  }
 
   activate() {
     this._is_active = true;
@@ -86,7 +96,9 @@ export class GenreFakeBuilder<TBuild = any> {
       Genre.create(
         {
           name: this.callFactory(this._name, index),
-          
+          categories_id: this._categories_id.length
+            ? this.callFactory(this._categories_id, index)
+            : [new CategoryId()],
           is_active: this.callFactory(this._is_active, index),
           ...(this._created_at && {
             created_at: this.callFactory(this._created_at, index),
@@ -104,6 +116,10 @@ export class GenreFakeBuilder<TBuild = any> {
 
   get name() {
     return this.getValue("name");
+  }
+
+  get categories_id() {
+    return this.getValue("categories_id");
   }
 
   get is_active() {

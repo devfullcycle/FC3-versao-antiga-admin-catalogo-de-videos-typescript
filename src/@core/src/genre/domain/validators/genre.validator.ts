@@ -4,10 +4,13 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  IsInstance,
 } from "class-validator";
 import ClassValidatorFields from "../../../@seedwork/domain/validators/class-validator-fields";
 import { GenreProperties } from "../entities/genre";
-
+import { CategoryId } from "../../../category/domain";
+import { IterableNotEmpty } from "../../../@seedwork/domain/validators/rules/iterable-not-empty.rule";
+import { Distinct } from "../../../@seedwork/domain/validators/rules/distinct.rule";
 
 export class GenreRules {
   @MaxLength(255)
@@ -15,7 +18,10 @@ export class GenreRules {
   @IsNotEmpty()
   name: string;
 
-  //
+  @Distinct((a: CategoryId, b: CategoryId) => a.value === b.value)
+  @IsInstance(CategoryId, { each: true })
+  @IterableNotEmpty()
+  categories_id: Map<string, CategoryId>;
 
   @IsDate()
   @IsOptional()

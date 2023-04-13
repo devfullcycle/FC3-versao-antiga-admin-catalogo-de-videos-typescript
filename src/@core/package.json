@@ -9,7 +9,9 @@
     "#category/domain": "./dist/category/domain/index.js",
     "#category/*": "./dist/category/*.js",
     "#cast-member/domain": "./dist/cast-member/domain/index.js",
-    "#cast-member/*": "./dist/cast-member/*.js"
+    "#cast-member/*": "./dist/cast-member/*.js",
+    "#genre/domain": "./dist/genre/domain/index.js",
+    "#genre/*": "./dist/genre/*.js"
   },
   "exports": {
     "./@seedwork/application": "./dist/@seedwork/application/index.js",

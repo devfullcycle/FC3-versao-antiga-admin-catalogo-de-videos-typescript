@@ -5,7 +5,6 @@ import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
 import { GenreFakeBuilder } from "./genre-fake-builder";
 import { CategoryId } from "../../../category/domain";
 
-
 export type GenreProperties = {
   name: string;
   categories_id: Map<string, CategoryId>;
@@ -13,9 +12,9 @@ export type GenreProperties = {
   created_at?: Date;
 };
 
-export type GenreCreateCommand = Omit<GenreProperties, 'categories_id'> & {
-  categories_id: string[];
-}
+export type GenreCreateCommand = Omit<GenreProperties, "categories_id"> & {
+  categories_id: string[] | CategoryId[];
+};
 
 export class GenreId extends UniqueEntityId {}
 
@@ -38,7 +37,12 @@ export class Genre extends AggregateRoot<
   static create(props: GenreCreateCommand, id?: GenreId) {
     const categories_id = new Map<string, CategoryId>();
     props.categories_id.forEach((categoryId) => {
-      categories_id.set(categoryId, new CategoryId(categoryId));
+      categories_id.set(
+        categoryId instanceof CategoryId ? categoryId.value : categoryId,
+        categoryId instanceof CategoryId
+          ? categoryId
+          : new CategoryId(categoryId)
+      );
     });
     return new Genre({ ...props, categories_id }, id);
   }
@@ -50,6 +54,49 @@ export class Genre extends AggregateRoot<
     });
     this.name = name;
   }
+
+  addCategoryId(categoryId: CategoryId): void {
+    this.categories_id.set(categoryId.value, categoryId);
+  }
+
+  removeCategoryId(categoryId: CategoryId): void {
+    this.categories_id.delete(categoryId.value);
+  }
+
+  updateCategoriesId(newCategoriesId: CategoryId[]): void {
+    if (!newCategoriesId.length) {
+      return;
+    }
+    const categoriesId = new Map<string, CategoryId>();
+    newCategoriesId.forEach((categoryId) => {
+      categoriesId.set(categoryId.value, categoryId);
+    });
+    Genre.validate({
+      ...this.props,
+      categories_id: categoriesId,
+    });
+    this.categories_id = categoriesId;
+  }
+
+  // reveria para rastrear adicionados e removidos
+  // syncCategoriesId(newCategoriesIds: CategoryId[]) {
+  //   if(!newCategoriesIds.length) {
+  //     return;
+  //   }
+  //   this.categories_id.forEach((category_id) => {
+  //     const notExists = !newCategoriesIds.find((newCategoryId) =>
+  //       newCategoryId.equals(category_id)
+  //     );
+  //     if (notExists) {
+  //       this.categories_id.delete(category_id.value);
+  //     }
+  //   });
+
+  //   newCategoriesIds.forEach((categoryId) =>
+  //     this.categories_id.set(categoryId.value, categoryId)
+  //   );
+  //   Genre.validate(this.props);
+  // }
 
   static validate(props: GenreProperties) {
     const validator = GenreValidatorFactory.create();
