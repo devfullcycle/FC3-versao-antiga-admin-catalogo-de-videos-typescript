@@ -146,4 +146,105 @@ describe("Genre Integration Tests", () => {
       genre.update("name changed");
     });
   });
+
+  describe("addCategoryId method", () => {
+    it("should throw an error when category id is invalid", () => {
+      const genre = Genre.fake().aGenre().build();
+      expect(() => genre.addCategoryId("fake" as any)).containsErrorMessages({
+        categories_id: [
+          "each value in categories_id must be an instance of CategoryId",
+        ],
+      });
+      expect(genre.categories_id.size).toBe(1);
+    });
+
+    it("should not add a duplicate category id", () => {
+      const categoryId = new CategoryId();
+      const genre = Genre.fake().aGenre().withCategoryId(categoryId).build();
+      genre.addCategoryId(categoryId);
+      expect(genre.categories_id.size).toBe(1);
+    });
+
+    it("should add a category id", () => {
+      const genre = Genre.fake().aGenre().build();
+      const categoryId = new CategoryId();
+      genre.addCategoryId(categoryId);
+      expect(genre.categories_id.size).toBe(2);
+      expect(genre.categories_id.get(categoryId.value)).toEqual(categoryId);
+    });
+  });
+
+  describe("removeCategoryId method", () => {
+    it("should throw an error when categories_id has just one id", () => {
+      const categoryId = new CategoryId();
+      const genre = Genre.fake().aGenre().withCategoryId(categoryId).build();
+      expect(() => genre.removeCategoryId(categoryId)).containsErrorMessages({
+        categories_id: ["categories_id should not be empty"],
+      });
+      expect(genre.categories_id.size).toBe(1);
+    });
+
+    it("should discard removal attempt when category id does not exist", () => {
+      const genre = Genre.fake().aGenre().build();
+      const otherCategoryId = new CategoryId();
+      genre.removeCategoryId(otherCategoryId);
+      expect(genre.categories_id.size).toBe(1);
+    });
+  });
+
+  describe("updateCategoriesId method", () => {
+    it("should discard update when argument is not an array", () => {
+      const categoryId = new CategoryId();
+      const genre = Genre.fake().aGenre().withCategoryId(categoryId).build();
+      genre.updateCategoriesId("fake id" as any);
+      expect(genre.categories_id.size).toBe(1);
+      expect(genre.categories_id.get(categoryId.value)).toEqual(categoryId);
+    });
+
+    it("should discard update when argument is an empty array", () => {
+      const categoryId = new CategoryId();
+      const genre = Genre.fake().aGenre().withCategoryId(categoryId).build();
+      genre.updateCategoriesId([]);
+      expect(genre.categories_id.size).toBe(1);
+      expect(genre.categories_id.get(categoryId.value)).toEqual(categoryId);
+    });
+
+    it("should throw an error when argument is an invalid category id", () => {
+      const categoryId = new CategoryId();
+      const genre = Genre.fake().aGenre().withCategoryId(categoryId).build();
+      expect(() =>
+        genre.updateCategoriesId(["fake"] as any)
+      ).containsErrorMessages({
+        categories_id: [
+          "each value in categories_id must be an instance of CategoryId",
+        ],
+      });
+      expect(genre.categories_id.size).toBe(1);
+      expect(genre.categories_id.get(categoryId.value)).toEqual(categoryId);
+    });
+
+    it("should update categories id", () => {
+      const categoryId = new CategoryId();
+      const categoriesId = [new CategoryId(), new CategoryId()];
+      const genre = Genre.fake().aGenre().withCategoryId(categoryId).build();
+      genre.updateCategoriesId(categoriesId);
+      expect(genre.categories_id.size).toBe(2);
+      expect(genre.categories_id.get(categoryId.value)).toBeUndefined();
+      expect(genre.categories_id.get(categoriesId[0].value)).toEqual(
+        categoriesId[0]
+      );
+      expect(genre.categories_id.get(categoriesId[1].value)).toEqual(
+        categoriesId[1]
+      );
+    });
+
+    it("should discard duplicated categories id on updating", () => {
+      const categoryId = new CategoryId();
+      const categoriesId = [categoryId, categoryId, categoryId];
+      const genre = Genre.fake().aGenre().withCategoryId(categoryId).build();
+      genre.updateCategoriesId(categoriesId);
+      expect(genre.categories_id.size).toBe(1);
+      expect(genre.categories_id.get(categoryId.value)).toEqual(categoryId);
+    });
+  });
 });
