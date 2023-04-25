@@ -1,4 +1,3 @@
-import { cloneDeep } from "lodash";
 import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
 import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
@@ -57,8 +56,7 @@ export class Genre extends AggregateRoot<
   }
 
   addCategoryId(categoryId: CategoryId) {
-    const categoriesId = cloneDeep(this.props.categories_id);
-    categoriesId.set(categoryId.value, categoryId);
+    const categoriesId = new Map(this.categories_id).set(categoryId.value, categoryId);
 
     Genre.validate({
       ...this.props,
@@ -69,7 +67,7 @@ export class Genre extends AggregateRoot<
   }
 
   removeCategoryId(categoryId: CategoryId) {
-    const categoriesId = cloneDeep(this.props.categories_id);
+    const categoriesId = new Map(this.categories_id);
     categoriesId.delete(categoryId.value);
 
     Genre.validate({
