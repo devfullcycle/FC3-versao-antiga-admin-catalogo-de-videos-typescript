@@ -206,15 +206,15 @@ describe("GenreFakerBuilder Unit Tests", () => {
     it("should pass index to created_at factory", () => {
       const date = new Date();
       faker.withCreatedAt((index) => new Date(date.getTime() + index + 2));
-      const category = faker.build();
-      expect(category.created_at.getTime()).toBe(date.getTime() + 2);
+      const genre = faker.build();
+      expect(genre.created_at.getTime()).toBe(date.getTime() + 2);
 
       const fakerMany = GenreFakeBuilder.theGenres(2);
       fakerMany.withCreatedAt((index) => new Date(date.getTime() + index + 2));
-      const categories = fakerMany.build();
+      const genres = fakerMany.build();
 
-      expect(categories[0].created_at.getTime()).toBe(date.getTime() + 0 + 2);
-      expect(categories[1].created_at.getTime()).toBe(date.getTime() + 1 + 2);
+      expect(genres[0].created_at.getTime()).toBe(date.getTime() + 0 + 2);
+      expect(genres[1].created_at.getTime()).toBe(date.getTime() + 1 + 2);
     });
   });
 
@@ -254,7 +254,7 @@ describe("GenreFakerBuilder Unit Tests", () => {
     expect(genre.props.created_at).toEqual(created_at);
   });
 
-  it("should create many categories", () => {
+  it("should create many genres", () => {
     const faker = GenreFakeBuilder.theGenres(2);
     let genres = faker.build();
 
